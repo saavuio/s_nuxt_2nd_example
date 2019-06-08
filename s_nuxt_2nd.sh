@@ -9,6 +9,7 @@ if [ ! -d ./s_base/${NAME} ]; then
   mkdir -p s_base/${NAME}
   curl -Lso ./s_base/${NAME}/init.sh https://github.com/saavuio/${NAME}/raw/${VERSION}/init.sh
   chmod +x ./s_base/${NAME}/init.sh
+  IS_FRESH=1
 fi
 
 # NOTE: this file will get a local copy in the target project. Change the
@@ -18,12 +19,14 @@ fi
 GIT_SHA_SHOULD_BE="LATEST"
 GIT_SHA_IS=$(cd s_base/$NAME && git log --pretty=format:'%h' -n 1)
 
-if [ "$GIT_SHA_SHOULD_BE" != "LATEST" ]; then
+if [ "$GIT_SHA_SHOULD_BE" != "LATEST" ] || [ ! -z "$IS_FRESH" ]; then
   if [ "$GIT_SHA_IS" != "$GIT_SHA_SHOULD_BE" ]; then
     echo "Base updated. Running ./s_base/${NAME}/init.sh"
     echo "..."
     sleep 3
     ./s_base/${NAME}/init.sh $GIT_SHA_SHOULD_BE
+  else
+    ./s_base/${NAME}/init.sh
   fi
 fi
 
