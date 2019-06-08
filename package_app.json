@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "axios": "^0.19.0",
+    "chatty-flow-editor": "git+https://gitlab+deploy-token-30210:YcCS7ezL5z8nnXBC7JZ7@gitlab.com/saavuio/chatty/chatty-flow-editor#master"
+  }
+}
