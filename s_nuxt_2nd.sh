@@ -19,15 +19,20 @@ fi
 GIT_SHA_SHOULD_BE="LATEST"
 GIT_SHA_IS=$(cd s_base/$NAME && git log --pretty=format:'%h' -n 1)
 
-if [ "$GIT_SHA_SHOULD_BE" != "LATEST" ] || [ ! -z "$IS_FRESH" ]; then
+if [ "$GIT_SHA_SHOULD_BE" != "LATEST" ]; then
   if [ "$GIT_SHA_IS" != "$GIT_SHA_SHOULD_BE" ]; then
     echo "Base updated. Running ./s_base/${NAME}/init.sh"
     echo "..."
     sleep 3
     ./s_base/${NAME}/init.sh $GIT_SHA_SHOULD_BE
-  else
-    ./s_base/${NAME}/init.sh
   fi
+fi
+
+if [ ! -z "$IS_FRESH" ]; then
+  echo "Uninitiated base. Running ./s_base/${NAME}/init.sh"
+  echo "..."
+  sleep 3
+  ./s_base/${NAME}/init.sh
 fi
 
 S_BASE_NAME=$NAME S_BASE_VERSION=$VERSION \
